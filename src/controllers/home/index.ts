@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import { TYPES } from "../../services/types";
+import { TYPES } from "../../inversify/types";
 import { Router } from "express";
 import { IUser } from "../../models/user";
 import { ILogger } from "../../services/loggerService";

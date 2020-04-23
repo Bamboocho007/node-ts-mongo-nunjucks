@@ -1,6 +1,6 @@
 import { Container } from "inversify";
 import { TYPES } from "./types";
-import { ConsoleLogger } from "./loggerService";
+import { ConsoleLogger } from "../services/loggerService";
 import { HomeController } from "../controllers/home";
 import { LoginController } from "../controllers/login";
 import { LogoutController } from "../controllers/logout";

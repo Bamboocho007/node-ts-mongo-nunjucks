@@ -2,7 +2,7 @@ import User, { IUser } from "../../models/user";
 import { hash } from "bcrypt";
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import { TYPES } from "../../services/types";
+import { TYPES } from "../../inversify/types";
 import { Router } from "express";
 import { ILogger } from "../../services/loggerService";
 import { CommonController } from "..";

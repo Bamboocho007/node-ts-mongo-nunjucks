@@ -5,6 +5,9 @@ import User, { IUser } from "../models/user";
 class PassportConfig {
 
     public _passport: PassportStatic;
+    get passport(): PassportStatic {
+        return this._passport;
+    }
 
     constructor() {
         this._passport = passport;
@@ -36,10 +39,6 @@ class PassportConfig {
                 return done(null, user);
             });
         }));
-    }
-
-    get() {
-        return this._passport;
     }
 }
 

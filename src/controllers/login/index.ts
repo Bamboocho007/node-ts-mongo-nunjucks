@@ -1,7 +1,7 @@
 import { passportConfig } from "../../utils/passportConfig";
 import { injectable, inject } from "inversify";
 import "reflect-metadata";
-import { TYPES } from "../../services/types";
+import { TYPES } from "../../inversify/types";
 import { Router } from "express";
 import { ILogger } from "../../services/loggerService";
 import { CommonController } from "..";
@@ -16,7 +16,7 @@ class LoginController implements CommonController {
         });
 
         loginRouter.post('/login', function(req, res, next) {
-            passportConfig.get().authenticate('local', function(err, user, info) {
+            passportConfig.passport.authenticate('local', function(err, user, info) {
                 if ( err ) {
                     return next(err); // will generate a 500 error
                 }
