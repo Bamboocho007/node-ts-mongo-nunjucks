@@ -1,20 +1,29 @@
+import { injectable, inject } from "inversify";
+import "reflect-metadata";
+import { TYPES } from "../../services/types";
 import { Router } from "express";
-import User, { IUser } from "../../models/user";
+import { IUser } from "../../models/user";
+import { ILogger } from "../../services/loggerService";
+import { CommonController } from "..";
 
-const homeRouter = Router();
+@injectable()
+class HomeController implements CommonController {
+    constructor( @inject(TYPES.Logger) private logger: ILogger ) {}
 
-homeRouter.get("/",  (req, res) => {
-    const data = [
-        {
-            email: "test@dhts.ge",
-            firstName: "test user 2",
-            lastName: "test last name 2"
-        }
-    ];
+    CurrentRouter(): Router {
+        const homeRouter = Router()
 
-    let user: IUser =  req.user ? req.user as IUser : null;
+        homeRouter
+            .get("/",  (req, res) => {
+                this.logger.Log("home route");
+            
+                let user: IUser =  req.user ? req.user as IUser : null;
+            
+                res.render("index", { user: user });
+            })
+            
+        return homeRouter;
+    }
+}
 
-    res.render("index", { user: user });
-});
-
-export { homeRouter };
+export { HomeController };

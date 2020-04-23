@@ -4,6 +4,11 @@
         "removeComments": true,
         "sourceMap": true,
         "target": "ES6",
+        "lib": ["es6"],
+        "types": ["reflect-metadata"],
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "esModuleInterop": true
     },
     "outFile": "./dist/server.js",

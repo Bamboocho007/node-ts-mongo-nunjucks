@@ -1,5 +1,5 @@
-import { Express } from "express";
-import nunjucks, { Environment } from "nunjucks";
+import { Express, Router } from "express";
+import { Environment, configure as nunjucksConfig } from "nunjucks";
 
 class Server {
     _App: Express;
@@ -8,7 +8,7 @@ class Server {
     constructor(app: Express) {
         this._App = app;
 
-        this.NjkEnv = nunjucks.configure('views', {
+        this.NjkEnv = nunjucksConfig('views', {
             autoescape: true,
             express: this._App
         });
@@ -26,8 +26,10 @@ class Server {
         });
     }
 
-    ApplyRoutes() {
-
+    ApplyRoutes(middlewares: Router[]) {
+        middlewares.forEach( m => {
+            this._App.use(m);
+        });
     }
 
     AddHtmlFilters(filters: {name: string, func: (...arg: any) => string}[]) {

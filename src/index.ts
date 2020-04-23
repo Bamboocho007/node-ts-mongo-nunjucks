@@ -1,14 +1,25 @@
 import express from "express";
-import { Server } from "./server";
-import controllers from "./controllers";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import passport from "passport";
 import session from "express-session";
 import flash from "connect-flash";
-import "./dbConfig";
+import { DBConfig } from "./dbConfig";
+import { Server } from "./server";
+import { iocContainer } from "./services/inversify.config";
+import { TYPES } from "./services/types";
+import { HomeController } from "./controllers/home";
+import { RegistrationController } from "./controllers/registration";
+import { LoginController } from "./controllers/login";
+import { LogoutController } from "./controllers/logout";
+
+const dbData = new DBConfig();
 const app = express();
 const server = new Server(app);
+const homeController = iocContainer.get<HomeController>(TYPES.HomeController);
+const loginController = iocContainer.get<LoginController>(TYPES.LoginController);
+const logoutController = iocContainer.get<LogoutController>(TYPES.LogoutController);
+const registrationController = iocContainer.get<RegistrationController>(TYPES.RegistrationController);
 
 server.ApplySetting([
     ['view engine', 'njk']
@@ -32,7 +43,14 @@ server.ApplyMiddlewares([
     flash(),
     passport.initialize(),
     passport.session(),
-    ...controllers
 ]);
+
+server.ApplyRoutes([
+    homeController.CurrentRouter(),
+    loginController.CurrentRouter(),
+    logoutController.CurrentRouter(),
+    registrationController.CurrentRouter()
+]);
+
 
 server.Listen();

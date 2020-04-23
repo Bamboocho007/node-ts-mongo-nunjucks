@@ -1,33 +1,48 @@
-import passport from "passport";
+import passport, { PassportStatic } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import User, { IUser } from "../models/user";
 
-passport.serializeUser((user: IUser, done) => {
-    done(null, user._id);
-});
+class PassportConfig {
 
-passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-        done(err, user);
-    });
-});
+    public _passport: PassportStatic;
 
-passport.use( new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-}, (email, password, done) => {
-    User.findOne({ email: email }, function(err, user) {
-        if (err) { return done(err); }
-        if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
-        }
-        if (!user.validPassword(password)) {
-          return done(null, false, { message: 'Incorrect password.' });
-        }
-        return done(null, user);
-    });
-}));
+    constructor() {
+        this._passport = passport;
+    }
+    
+    init() {
+        this._passport.serializeUser((user: IUser, done) => {
+            done(null, user._id);
+        });
+        
+        this._passport.deserializeUser((id, done) => {
+            User.findById(id, (err, user) => {
+                done(err, user);
+            });
+        });
+    
+        this._passport.use( new LocalStrategy({
+            usernameField: 'email',
+            passwordField: 'password'
+        }, (email, password, done) => {
+            User.findOne({ email: email }, function(err, user) {
+                if (err) { return done(err); }
+                if (!user) {
+                  return done(null, false, { message: 'Incorrect username.' });
+                }
+                if (!user.validPassword(password)) {
+                  return done(null, false, { message: 'Incorrect password.' });
+                }
+                return done(null, user);
+            });
+        }));
+    }
 
-const passportConfig = passport;
+    get() {
+        return this._passport;
+    }
+}
+
+let passportConfig = new PassportConfig();
 
 export { passportConfig };

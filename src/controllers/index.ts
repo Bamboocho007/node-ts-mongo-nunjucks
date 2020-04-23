@@ -1,11 +1,5 @@
-import { homeRouter } from "./home";
-import { loginRouter } from "./login";
-import { logoutRouter } from "./logout";
-import { registrationRouter } from "./registration";
+import { Router } from "express";
 
-export default [
-    homeRouter,
-    loginRouter,
-    logoutRouter,
-    registrationRouter
-];
+export interface CommonController {
+    CurrentRouter(): Router
+}
