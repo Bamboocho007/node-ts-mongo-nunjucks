@@ -7,5 +7,10 @@
 </head>
 <body>
     Hellow {{ user.firstName if user else "Stranger" }}!
+    {% if user %}
+        User content 
+    {% else %}
+        Stranger content
+    {% endif %}
 </body> 
 </html>

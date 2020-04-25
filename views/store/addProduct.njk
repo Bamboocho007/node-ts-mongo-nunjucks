@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add product</title>
+</head>
+<body>
+    <form method="post">
+        <label for="">Name</label>
+        <input type="text" name="name">
+        <label for="">Section</label>
+        <input type="text" name="section">
+        <label for="">Color</label> 
+        <input type="text" name="color">
+        <label for="">Weight</label>
+        <input type="text" name="weight">
+        <label for="">Cost</label>
+        <input type="text" name="cost">
+        <button type="submit">Submit</button>
+    </form>
+
+    <div>
+        <div>
+            {% for product in products %}
+                <a href="/store/buy/{{ product._id }}">
+                    {{ product.name }}
+                </a>
+            {% endfor %}
+        </div>
+        <div>
+            {% for purchase in purchases %}
+                <div>
+                    {{ purchase }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

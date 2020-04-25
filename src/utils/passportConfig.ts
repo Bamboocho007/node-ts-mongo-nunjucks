@@ -1,7 +1,9 @@
 import passport, { PassportStatic } from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import User, { IUser } from "../models/user";
+import { injectable } from "inversify";
 
+@injectable()
 class PassportConfig {
 
     public _passport: PassportStatic;
@@ -11,6 +13,7 @@ class PassportConfig {
 
     constructor() {
         this._passport = passport;
+        this.init();
     }
     
     init() {
@@ -42,6 +45,4 @@ class PassportConfig {
     }
 }
 
-let passportConfig = new PassportConfig();
-
-export { passportConfig };
+export { PassportConfig };
